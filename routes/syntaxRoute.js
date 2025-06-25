@@ -78,7 +78,7 @@ router.get('/javascript', async (req, res) => {
 // 🔹 React Route
 router.get('/react', async (req, res) => {
   try {
-    const doc = await React.findOne();
+    const doc = await React.findOne({ReactJS:{$exists:true}});
     console.log("Fetched React from MongoDB:", doc);
     if (!doc) {
       return res.status(404).json({ error: "React content not found" });
@@ -93,7 +93,7 @@ router.get('/react', async (req, res) => {
 // 🔹 Node.js Route
 router.get('/node', async (req, res) => {
   try {
-    const doc = await NodeJS.findOne();
+    const doc = await NodeJS.findOne({NodeJS:{$exits:true}});
     console.log("Fetched Node.js from MongoDB:", doc);
     if (!doc) {
       return res.status(404).json({ error: "Node.js content not found" });
@@ -108,7 +108,7 @@ router.get('/node', async (req, res) => {
 // 🔹 Express.js Route
 router.get('/express', async (req, res) => {
   try {
-    const doc = await ExpressJs.findOne();
+    const doc = await ExpressJs.findOne({ExpressJS:{$exists:true}});
     console.log("Fetched Express.js from MongoDB:", doc);
     if (!doc) {
       return res.status(404).json({ error: "Express.js content not found" });
