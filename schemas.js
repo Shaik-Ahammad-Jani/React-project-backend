@@ -3227,33 +3227,29 @@ const ExpressJSSchema = new Schema({
 });
 
 // Export the schema
-const ExpressJs = mongoose.model('ExpressJS', ExpressJSSchema,'syntax');
+
 
 
 
 
 // Export the schema
-const NodeJS= mongoose.model('NodeJS', NodeJSSchema,'syntax');
+
 
 
 
 
   
   // Create the model from the schema
-  const JavaScript = mongoose.model('JavaScript', JavaScriptSchema,'syntax');
   
   // module.exports = JavaScript;
-
+  
   
   // Create the model
-  const CourseContent = mongoose.model('CourseContent', CourseContentSchema,'syntax');
   
   // module.exports = CourseContent;
-
+  
 // Create model from schema
-const HTMLDocumentation = mongoose.model('HTMLDocumentation', HTMLDocumentationSchema,'syntax');
 
-const React = mongoose.model('RecatJs',ReactTutorialSchema,'syntax')
 
 // module.exports = HTMLDocumentation;
 
@@ -3261,5 +3257,11 @@ const React = mongoose.model('RecatJs',ReactTutorialSchema,'syntax')
 
 const usersDb = mongoose.connection.useDb('Users');
 const UsersSchema = usersDb.model('users', Users);
+const HTMLDocumentation = usersDb.model('HTMLDocumentation', HTMLDocumentationSchema,'syntax');
+const React = usersDb.model('RecatJs',ReactTutorialSchema,'syntax')
+const CourseContent = usersDb.model('CourseContent', CourseContentSchema,'syntax');
+const JavaScript = usersDb.model('JavaScript', JavaScriptSchema,'syntax');
+const NodeJS= usersDb.model('NodeJS', NodeJSSchema,'syntax');
+const ExpressJs = usersDb.model('ExpressJS', ExpressJSSchema,'syntax'); 
 
 module.exports = {UsersSchema,HTMLDocumentation,CourseContent,JavaScript,React,NodeJS,ExpressJs}

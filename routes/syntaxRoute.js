@@ -7,79 +7,117 @@ const {
   JavaScript,
   React,
   NodeJS,
-  ExpressJs
+  ExpressJs,
+  syntax // Add syntax model import here
 } = require('../schemas');
 
-// Get only HTML data
+// 🔹 HTML Route
 router.get('/html', async (req, res) => {
   try {
-    const doc = await HTMLDocumentation.findOne();
+    const doc = await HTMLDocumentation.findOne({HTML:{$exists:true}});
+    console.log("Fetched HTML from MongoDB:", doc);
     if (!doc || !doc.HTML) {
       return res.status(404).json({ error: "HTML content not found" });
     }
-    res.status(200).json(doc.HTML); // ✅ Only send HTML part
+    res.status(200).json(doc.HTML);
   } catch (err) {
+    console.error("Error fetching HTML:", err);
     res.status(500).json({ error: 'Server error' });
   }
 });
 
-
-// Get only CSS data
+// 🔹 CSS Route
 router.get('/css', async (req, res) => {
   try {
-    const data = await CourseContent.findOne();
-    res.status(200).json(data?.CSS || {});
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch CSS data' });
+    const doc = await CourseContent.findOne({ CSS: { $exists: true } });
+    console.log("Fetched CSS from MongoDB:", doc);
+    if (!doc || !doc.CSS) {
+      return res.status(404).json({ error: "CSS content not found" });
+    }
+    res.status(200).json(doc.CSS);
+  } catch (err) {
+    console.error("Error fetching CSS:", err);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
-// Get only JavaScript data
+router.get('/debug-syntax', async (req, res) => {
+  try {
+    const data = await JavaScript.find();
+    console.log("🧪 All syntax documents (via JavaScript model):", data);
+    res.status(200).json(data);
+  } catch (err) {
+    console.error("❌ Error in debug-syntax route:", err);
+    res.status(500).json({ error: "Debug error" });
+  }
+});
+
+
+// 🔹 JavaScript Route
 router.get('/javascript', async (req, res) => {
   try {
-    const data = await JavaScript.findOne();
-    res.status(200).json(data?.JAVASCRIPT || {});
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch JavaScript data' });
+    // ✅ Ensure we filter the correct doc
+    const doc = await JavaScript.findOne({ JAVASCRIPT: { $exists: true } });
+
+    console.log("✅ JAVASCRIPT doc:", doc);
+
+    if (!doc || !doc.JAVASCRIPT) {
+      return res.status(404).json({ error: "JavaScript content not found" });
+    }
+
+    res.status(200).json(doc.JAVASCRIPT); // ✅ only send the JS part
+  } catch (err) {
+    console.error("❌ Error in /api/javascript:", err);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
-// Get only React data
+
+
+
+// 🔹 React Route
 router.get('/react', async (req, res) => {
   try {
-    const data = await React.findOne();
-    res.status(200).json(data || {});
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch React data' });
-  }
+    const doc = await React.findOne();
+    console.log("Fetched React from MongoDB:", doc);
+    if (!doc) {
+      return res.status(404).json({ error: "React content not found" });
+    }
+    res.status(200).json(doc);
+  } catch (err) {
+    console.error("Error fetching React:", err);
+    res.status(500).json({ error: 'Server error' });
+  } 
 });
 
-// Get only Node.js data
+// 🔹 Node.js Route
 router.get('/node', async (req, res) => {
   try {
-    const data = await NodeJS.findOne();
-    res.status(200).json(data || {});
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch Node.js data' });
+    const doc = await NodeJS.findOne();
+    console.log("Fetched Node.js from MongoDB:", doc);
+    if (!doc) {
+      return res.status(404).json({ error: "Node.js content not found" });
+    }
+    res.status(200).json(doc);
+  } catch (err) {
+    console.error("Error fetching Node.js:", err);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
-// Get only Express.js data
+// 🔹 Express.js Route
 router.get('/express', async (req, res) => {
   try {
-    const data = await ExpressJs.findOne();
-    res.status(200).json(data || {});
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch Express.js data' });
+    const doc = await ExpressJs.findOne();
+    console.log("Fetched Express.js from MongoDB:", doc);
+    if (!doc) {
+      return res.status(404).json({ error: "Express.js content not found" });
+    }
+    res.status(200).json(doc);
+  } catch (err) {
+    console.error("Error fetching Express.js:", err);
+    res.status(500).json({ error: 'Server error' });
   }
 });
-// router.get('/java', async (req, res) => {
-//   try {
-//     const data = await Java.findOne();
-//     res.status(200).json(data || {});
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to fetch Express.js data' });
-//   }
-// });
 
 module.exports = router;
